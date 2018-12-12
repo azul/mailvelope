@@ -8,7 +8,7 @@ import * as l10n from '../lib/l10n';
 import {mapError, checkEmail, checkUrl, MvError} from '../lib/util';
 import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
 import {verifyDetachedSignature, encryptMessage} from '../modules/pgpModel';
-import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
+import * as keyRegistry from '../modules/keyRegistry';
 import dompurify from 'dompurify';
 
 // get language strings
@@ -220,10 +220,7 @@ ${this.formSignature}
   }
 
   async autoLocate() {
-    if (!isAutoLocateEnabled()) {
-      return;
-    }
-    const armored = await locate({email: this.formRecipientEmail});
+    const armored = await keyRegistry.lookup(this.formRecipientEmail, this.keyringId);
     if (armored) {
       try {
         await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
