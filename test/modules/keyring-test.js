@@ -32,6 +32,7 @@ describe('keyring unit tests', () => {
     keyringRewireAPI.__Rewire__('mvelo', {
       MAIN_KEYRING_ID: mvelo.MAIN_KEYRING_ID,
       storage,
+      Error,
       util: {
         filterAsync: mvelo.util.filterAsync,
         toArray: mvelo.util.toArray
@@ -59,8 +60,8 @@ describe('keyring unit tests', () => {
 
   describe('deleteKeyring', () => {
     it('Should delete keyring, all keys and keyring attributes', async () => {
-      expect(getById('testABC')).to.not.throw;
-      return expect(deleteKeyring('testABC')).to.eventually.throw;
+      expect(getById('test123')).to.not.throw;
+      return expect(deleteKeyring('test123')).to.eventually.throw;
     });
   });
 
